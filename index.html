@@ -62,11 +62,105 @@
       let firstNum = document.querySelector('#first-num').value;
       let secondNum = document.querySelector('#second-num').value;
       let operator = document.querySelector('#operator').value;
+ 
+        // if (!firstNum || !secondNum) {
+        //   throw new SyntaxError("Conversion Error: Value converted to NaN");
+        // } 
+     
       output.innerHTML = eval(`${firstNum} ${operator} ${secondNum}`);
+   
     });
 
     let errorBtns = Array.from(document.querySelectorAll('#error-btns > button'));
     // TODO - Make buttons functional
+    
+    //Console log demo
+    let logDemo = errorBtns[0];
+    logDemo.addEventListener('click', () => {
+      console.log(logDemo.innerHTML);
+    });
+    
+    //Console log error
+    let errorDemo = errorBtns[1];
+    errorDemo.addEventListener('click', () => {
+      console.error("Console Error Demo");
+    }); 
+    
+    //Console Dir
+    let dir = errorBtns[2];
+    dir.addEventListener('click', () => {
+      console.dir(document.head);
+    });
+
+    //Console dirxml
+    let dirxml = errorBtns[3];
+    dirxml.addEventListener('click', () => {
+      console.dirxml(document);
+    });
+
+    //Console group start
+    let groupStart = errorBtns[4];
+    const label = 'Log Group';
+    groupStart.addEventListener('click', () =>{
+      
+      console.group(label);
+    });
+
+    //Console group end
+    let groupEnd = errorBtns[5];
+    groupEnd.addEventListener('click', () =>{
+      try {
+        console.groupEnd(label);
+      }
+      catch (err) {
+        alert("does not work");
+      }
+    });
+
+    //Console table
+    let table = errorBtns[6];
+    table.addEventListener('click', () => {
+      console.table([
+        {
+          name: "Software Engineering",
+          num: 110
+        },
+        {
+          name: "Programming Languages",
+          num: 130
+        },
+        {
+          name: "Advanced Software Engineering",
+          num: 112
+        }
+      ]);
+    });
+    
+    // <button>Start Timer</button>
+    let startTimer = errorBtns[7];
+    startTimer.addEventListener('click', () => {
+      console.log('Timer has started');
+      console.time();
+    });
+
+    // <button>End Timer</button>
+    let endTimer = errorBtns[8];
+    endTimer.addEventListener('click', () => {
+      console.log('Timer has ended');
+      console.timeEnd();
+    });
+    // <button>Console Trace</button>
+    let trace = errorBtns[9];
+    trace.addEventListener('click', () => {
+      console.trace();
+    });
+    // <button>Trigger a Global Error</button>
+    let globalError = errorBtns[10];
+    globalError.addEventListener('click', () => {
+        console.warn();
+    });
+    
+    
   </script>
 </body>
 </html>
