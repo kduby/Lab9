@@ -62,13 +62,15 @@
       let firstNum = document.querySelector('#first-num').value;
       let secondNum = document.querySelector('#second-num').value;
       let operator = document.querySelector('#operator').value;
- 
-        // if (!firstNum || !secondNum) {
-        //   throw new SyntaxError("Conversion Error: Value converted to NaN");
-        // } 
-     
-      output.innerHTML = eval(`${firstNum} ${operator} ${secondNum}`);
-   
+      try {
+        if (!firstNum || !secondNum) {
+                throw new SyntaxError("Conversion Error: Value converted to NaN");
+        }
+        output.innerHTML = eval(`${firstNum} ${operator} ${secondNum}`); 
+      }
+      catch (err) {
+        console.error(err.message);
+      }
     });
 
     let errorBtns = Array.from(document.querySelectorAll('#error-btns > button'));
