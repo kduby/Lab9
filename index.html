@@ -54,8 +54,28 @@
     <button>Console Trace</button>
     <button>Trigger a Global Error</button>
   </section>
-
+  
+  <script src="https://cdn.trackjs.com/agent/v3/latest/t.js"></script>
   <script>
+    window.TrackJS && TrackJS.install({ 
+      token: "4f91f0a4529d4de0bc5d747b43f48b1f"
+      // for more configuration options, see https://docs.trackjs.com
+    });
+  </script>
+                          
+  <script>
+    
+    //Create custom error classs
+    class ValidationError extends Error {
+      constructor(message) {
+        super(message); 
+        this.name = "ValidationError"; 
+      }
+    }
+    function test() {
+      throw new ValidationError("Conversion Error: Value converted to NaN");
+    }
+  
     let calculateBtn = document.querySelector('#calculate');
     calculateBtn.addEventListener('click', () => {
       let output = document.querySelector('output');
@@ -64,12 +84,18 @@
       let operator = document.querySelector('#operator').value;
       try {
         if (!firstNum || !secondNum) {
-                throw new SyntaxError("Conversion Error: Value converted to NaN");
+               test();
         }
-        output.innerHTML = eval(`${firstNum} ${operator} ${secondNum}`); 
+         
       }
       catch (err) {
         console.error(err.message);
+        firstNum = 0;
+        secondNum = 0;
+        //output.innerHTML = 'Result: 0';
+      }
+      finally {
+        output.innerHTML = eval(`${firstNum} ${operator} ${secondNum}`);
       }
     });
 
@@ -148,20 +174,33 @@
     // <button>End Timer</button>
     let endTimer = errorBtns[8];
     endTimer.addEventListener('click', () => {
-      console.log('Timer has ended');
       console.timeEnd();
     });
+
     // <button>Console Trace</button>
     let trace = errorBtns[9];
     trace.addEventListener('click', () => {
-      console.trace();
+      const first = () => { second(); };
+      const second = () => { third(); };
+      const third = () => { fourth(); };
+      const fourth = () => { console.trace(); };
+      first();
     });
+
     // <button>Trigger a Global Error</button>
     let globalError = errorBtns[10];
     globalError.addEventListener('click', () => {
-        console.warn();
+        console.warn('warning');
     });
     
+    var oldError = window.onerror;
+      
+      //  window.onerror = function (errorMessage,url,lineNumber) { AjaxTCRExamples.reportJSError(errorMessage,url,lineNumber); oldError(errorMessage,url,lineNumber); }er;
+
+    window.onerror = function(error) {
+      TrackJS.track(error);
+                        
+    }
     
   </script>
 </body>
